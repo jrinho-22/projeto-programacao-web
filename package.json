@@ -1,0 +1,28 @@
+{
+  "name": "projeto-programacao-web",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx nodemon --exec ts-node app/app.ts --watch app --ext ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^22.9.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.8.1",
+    "mysql2": "^3.15.1",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

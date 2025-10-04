@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "ES6",                    // Transpile to ECMAScript 6 (ES6) standard
+      "module": "commonjs",               // CommonJS modules (required for Node.js)
+      "strict": true,                     // Enable all strict type-checking options
+      "esModuleInterop": true,            // Enable compatibility between ES and CommonJS modules
+      "skipLibCheck": true,               // Skip type-checking of declaration files
+      "outDir": "./dist",                 // Output the compiled JavaScript in the `dist` folder
+      "rootDir": "./app",                 // All source files are in the `src` folder
+      "resolveJsonModule": true,          // Allow importing JSON files as modules
+      "forceConsistentCasingInFileNames": true // Ensure consistent casing in file names
+    },
+    "include": ["app/**/*"],             // Include all files in `src` folder
+    "exclude": ["node_modules", "dist"]  // Exclude `node_modules` and `dist` from compilation
+}
