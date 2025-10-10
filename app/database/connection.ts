@@ -1,8 +1,6 @@
 import mysql from "mysql2/promise";
-import fs from "fs";
 
-async function main() {
-  const connection = await mysql.createConnection({
+export const connection = mysql.createConnection({
     host: "mysql-3a5cf060-jrinho222-6ccf.e.aivencloud.com",
     port: 27735,
     user: "avnadmin",
@@ -14,10 +12,3 @@ async function main() {
       // ca: fs.readFileSync("ca.pem")
     }
   });
-
-  const [rows] = await connection.query("SELECT NOW() as currentTime");
-  console.log(rows)
-  await connection.end();
-}
-
-main().catch(console.error);

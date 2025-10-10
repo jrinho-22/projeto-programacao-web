@@ -1,0 +1,27 @@
+#gridContainer {
+    height: 400px;
+    width: 80%;
+    margin: 0px auto;
+}
+
+.dx-datagrid {
+    background-color: bisque;
+    border-radius: 20px;
+    margin-top: 40px;
+
+    .dx-datagrid-header-panel {
+        height: 37px;
+
+        .dx-toolbar {
+            height: inherit;
+
+            .dx-toolbar-items-container {
+                height: inherit;
+            }
+        }
+    }
+}
+
+.dx-datagrid.header {
+    height: 37px;
+}
