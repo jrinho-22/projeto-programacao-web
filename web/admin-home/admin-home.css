@@ -1,0 +1,53 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg,rgba(152, 185, 218, 1) 0%, rgba(194, 212, 237, 1) 8%, rgb(244, 247, 248) 24%);
+  padding: 20px;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid rgb(32, 148, 173);
+}
+
+button[aria-selected="false"] {
+  background-color: white !important;
+  border: none;
+  color: rgb(32, 148, 173);
+}
+
+button[aria-selected="false"]:hover {
+  color: rgb(32, 148, 173) ;
+}
+
+button {
+    border: 2px solid rgb(32, 148, 173) !important;
+    border-bottom: none !important;
+}
+
+button[aria-selected="true"] {
+    border: none;
+    color: white !important;
+  background-color: rgb(32, 148, 173) !important;
+}
+
+
+.dx-datagrid {
+    background-color: bisque;
+    border-radius: 20px;
+    margin-top: 40px;
+
+    .dx-datagrid-header-panel {
+        height: 37px;
+
+        .dx-toolbar {
+            height: inherit;
+
+            .dx-toolbar-items-container {
+                height: inherit;
+            }
+        }
+    }
+}
+
+.dx-datagrid.header {
+    height: 37px;
+}

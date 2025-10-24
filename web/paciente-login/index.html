@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Área do Paciente</title>
+  <link rel="stylesheet" href="./paciente.css">
+      <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+</head>
+<body>
+  <div id="section-menu" class="d-flex flex-column align-items-center section">
+    <img src="../public/images/paciente.png" alt="Logo" />
+    <h2>Área do Paciente</h2>
+    <button class="m-2 rounded-sm" onclick="showSection('loginPaciente')">Login Paciente</button>
+    <button class="m-2 rounded-sm" onclick="showSection('cadastroPaciente')">Cadastro Paciente</button>
+  </div>
+
+  <div id="loginPaciente" class="section hide d-flex flex-column align-items-center">
+     <form id="form-login">
+      <h3>Login Paciente</h3>
+        <input name="login" class="form-control m-2 p-2" type="text" placeholder="Login">
+        <input name="senha" class="form-control m-2 p-2" type="password" placeholder="Senha">
+        <div class="d-flex mt-3 justify-content-between w-100">
+            <button class="btn-sm btn ps-4 pe-4" onclick="showSection('section-menu')">Voltar</button>
+            <button class="ms-auto btn btn-sm ps-4 pe-4" type="submit">Entrar</button> 
+        </div>
+    </form>
+  </div>
+
+  <div id="cadastroPaciente" class="section hide d-flex flex-column align-items-center">>
+    <form id="form-cadastro">
+      <h3>Cadastro Paciente</h3>
+      <input name="login" class="form-control m-2 p-2" type="text" placeholder="Login">
+      <input name="senha" class="form-control m-2 p-2" type="password" placeholder="Senha">
+      <input name="nome" class="form-control m-2 p-2" type="text" placeholder="Nome Completo">
+      <input name="cpf" class="form-control m-2 p-2" type="text" placeholder="CPF">
+      <input name="email" class="form-control m-2 p-2" type="text" placeholder="Email">
+      <input name="idade" class="form-control m-2 p-2" type="number" placeholder="Idade">
+        <div class="d-flex mt-3 justify-content-between w-100">
+          <button class="btn-sm btn ps-4 pe-4" onclick="showSection('section-menu')">Voltar</button>
+          <button class="ms-auto btn btn-sm ps-4 pe-4" type="submit">Cadastrar</button> 
+        </div>
+    </form>
+  </div>
+
+  <script src="../shared/resources.js"></script>
+  <script src="../shared/shared.js"></script>
+  <script src="./paciente.js"></script>
+</body>
+</html>

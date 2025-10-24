@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevExtreme Vanilla JS Example</title>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn3.devexpress.com/jslib/24.1.4/css/dx.material.blue.light.css"
+    />
+    <link rel="stylesheet" href="./admin-home.css" />
+  </head>
+  <body>
+    <div
+      id="alert-sucesso"
+      class="position-absolute alert alert-success alert-dismissible fade"
+      role="alert"
+    >
+      <span class="alert-msg"></span>
+      <button
+        onclick="eraseAlerts()"
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div
+      id="alert-error"
+      class="position-absolute alert alert-danger alert-dismissible fade"
+      role="alert"
+    >
+      <span class="alert-msg"></span>
+      <button
+        onclick="eraseAlerts()"
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div class="container-fluid vh-100 ps-5 pt-2">
+      <h1 style="margin-bottom: -30px;">Dashboard Admin</h1>
+
+      <ul class="nav nav-tabs nav justify-content-end mb-5" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            style="border-top-left-radius: 18px"
+            class="nav-link tab-button"
+            id="paciente-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#paciente-tab-content"
+            type="button"
+            role="tab"
+            aria-controls="paciente-tab-content"
+            aria-selected="false"
+          >
+            Lista de Pacientes
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+          style="border-top-right-radius: 18px"
+            class="nav-link tab-button active"
+            id="psicologo-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#psicologo-tab-content"
+            type="button"
+            role="tab"
+            aria-controls="psicologo-tab-content"
+            aria-selected="true"
+            role="tab"
+          >
+            Lista de Psicologos
+          </button>
+        </li>
+      </ul>
+      <!-- <div class="border-blue"></div> -->
+
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade"
+          id="paciente-tab-content"
+          role="tabpanel"
+          aria-labelledby="home-tab"
+        >
+          <div id="paciente-tab-content-toshow"></div>
+        </div>
+        <div
+          class="tab-pane fade show active"
+          id="psicologo-tab-content"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+        >
+           <div id="psicologo-tab-content-toshow"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn3.devexpress.com/jslib/24.1.4/js/dx.all.js"></script>
+    <script src="../shared/resources.js"></script>
+    <script src="../shared/shared.js"></script>
+    <script src="./admin-home.js"></script>
+  </body>
+</html>

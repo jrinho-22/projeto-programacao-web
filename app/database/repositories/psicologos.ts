@@ -1,7 +1,7 @@
 import instance from "../../session/user-session";
 import { connection } from "../connection";
 
-export async function getPacientes() {
+export async function getPsicologos() {
     let con = await connection()
 
     const [rows] = await con.execute(
@@ -11,7 +11,7 @@ export async function getPacientes() {
     return rows
 }
 
-export async function savePaciente(params: any) {
+export async function savePsicologo(params: any) {
     let con = await connection()
     console.log(params)
     let [res] = await con.execute(
@@ -21,11 +21,11 @@ export async function savePaciente(params: any) {
 
     await con.execute(
         'INSERT INTO Pessoa (id_pessoa, nome, email, tipo) VALUES (?, ?, ?, ?)',
-        [res.insertId, params.nome, params.email, 1]
+        [res.insertId, params.nome, params.email, 2]
     )
 }
 
-export async function updatePaciente(params: any) {
+export async function updatePsicologo(params: any) {
     let con = await connection()
     await con.execute(
         'UPDATE Pessoa SET nome = ?, email = ? WHERE id_pessoa = ?;',

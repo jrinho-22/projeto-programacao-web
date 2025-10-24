@@ -7,7 +7,7 @@ let myAlertSuccess = document.getElementById("alert-sucesso");
 let myAlertError = document.getElementById("alert-error");
 let alertElements = document.querySelectorAll(".alert-msg");
 
-function handleClick() {
+function eraseAlerts() {
   myAlertSuccess.classList.remove("show");
   myAlertError.classList.remove("show");
 }
@@ -21,6 +21,7 @@ new DevExpress.ui.dxDataGrid(document.getElementById("gridContainer"), {
         ...key,
         ...values,
       };
+      eraseAlerts()
       return request(pacienteSaveUpdate, "PUT", payload).then((response) => {
         if (response.status == "success") {
           alertElements.forEach((el) => {
@@ -36,11 +37,11 @@ new DevExpress.ui.dxDataGrid(document.getElementById("gridContainer"), {
       });
     },
     insert: (key, values) => {
-      console.log(key, values);
       let payload = {
         ...key,
         ...values,
       };
+      eraseAlerts()
       return request(pacienteSaveUpdate, "PUT", payload).then((response) => {
         if (response.status == "success") {
           alertElements.forEach((el) => {

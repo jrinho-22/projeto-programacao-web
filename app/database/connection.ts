@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
 
-export const connection = mysql.createConnection({
+export const connection = async() => await mysql.createConnection({
     host: "mysql-3a5cf060-jrinho222-6ccf.e.aivencloud.com",
     port: 27735,
     user: "avnadmin",
