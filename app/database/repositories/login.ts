@@ -11,41 +11,20 @@ export const saveNewLogin = async(username: string, senha: string) => {
 
 export async function getLogin(username: string, senha: string, tipo: number) {
     let con = await connection()
-    const [rows] = await con.execute(
-      'SELECT id_login, username, senha FROM Login WHERE username = ?',
-      [username]
+    const [rows]: any  = await con.execute(
+      'SELECT id_login, username FROM Login WHERE username = ? AND senha = ?',
+      [username, senha]
     );
 
-    let rowsRetyped = rows as Array<any>
-
-    if (rowsRetyped.length == 0) {
+    if (!(rows.length > 0)) {
       const error = new Error("Senha ou usuario incorreto") as any
       error.status = 401
       throw error
     }
 
-    if (rowsRetyped.length > 0) {
-      console.log(rowsRetyped[0])
-      const [rows]: any = await con.execute(
-        'SELECT * FROM Pessoa WHERE id_pessoa = ?',
-        [rowsRetyped[0].id_login]
-      );
-      console.log(rows)
-      if (rows[0].tipo != tipo) {
-        throw new Error("Login não pertence ao seu tipo de usuario") as any
-      }
-    }
-
-    const user = rowsRetyped[0]
-
-    const passwordMatch = user.senha == senha
-
-    if (!passwordMatch) {
-        const error = new Error("Senha ou usuario incorreto") as any
-        error.status = 401
-        throw error
-    }
-
+    console.log(rows[0])
     instance.isUserLogged = true
-    return true
+    
+    // { id_login: 1, username: 'qw' }
+    return rows[0]
 }

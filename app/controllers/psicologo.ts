@@ -1,7 +1,7 @@
 import { myApp } from "../server/server";
 import { resolveError } from "../helpers/controller";
 import { pacienteValidation } from "../validation/paciente";
-import { ValidationChain, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import { getPsicologos, savePsicologo, updatePsicologo } from "../database/repositories/psicologos";
 
 
@@ -17,7 +17,7 @@ myApp.get('/psicologo', async(req: any, res: any) => {
     })
 })
 
-myApp.put('/pacienteSaveUpdate', pacienteValidation, async(req: any, res: any) => {
+myApp.post('/pacienteSaveUpdate', pacienteValidation, async(req: any, res: any) => {
     const payload = req.body
     
     let errors = validationResult(req);

@@ -36,7 +36,8 @@ formLogin.addEventListener("submit", (event) => {
 
     request(userLogin, "POST", obj).then((response) => {
         if (response.status == "success"){
-            window.location.href = 'paciente-home'
+            localStorage.setItem("user_id", response.data.id_login);
+            window.location.href = '/paciente-home'
         }
     })  
 })

@@ -1,4 +1,6 @@
 import './login'
+import './avaliacao'
 import './pacientes'
 import './psicologo'
+import './consulta'
 import './web'

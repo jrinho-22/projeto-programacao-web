@@ -13,9 +13,9 @@ const base = "login"
 
 myApp.post("/login/session", async(req, res) => {
     try {
-        await getLogin(req.body.login, req.body.senha, req.body.tipo)
+        var userData = await getLogin(req.body.login, req.body.senha, req.body.tipo)
         res.send({
-            data: true,
+            data: userData,
             status: "success",
             // redirect: "/home"
         })
