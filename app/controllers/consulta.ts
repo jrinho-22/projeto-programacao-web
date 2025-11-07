@@ -1,8 +1,9 @@
 import { validationResult } from "express-validator";
 import { getLogin } from "../database/repositories/login";
-import { resolveError } from "../helpers/controller";
+import { resolveError, validateBody } from "../helpers/controller";
 import { myApp } from "../server/server";
 import { agendarConsulta, cancelarConsulta, getConsultas } from "../database/repositories/consulta";
+import { consultaValidation } from "../validation/consulta";
 
 myApp.get('/consultas', async(req: any, res: any) => {
     const userId = req.query.userId;
@@ -31,17 +32,10 @@ myApp.put('/cancelarConsulta/:consultaId', async(req: any, res: any) => {
     })
 })
 
-myApp.post("/agendarConsulta", async (req, res) => {
-  const payload = req.body;
-
-  let errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    errors = errors.formatWith((err) => {
-      return { ...err, status: 400 };
-    });
-    resolveError(errors.array()[0], res);
-    return;
-  }
+myApp.post("/agendarConsulta", consultaValidation, async (req: any, res: any) => {
+    var valid = validateBody(req, res)
+    if (!valid) return
+    const payload = req.body
 
   try {
     await agendarConsulta(payload);

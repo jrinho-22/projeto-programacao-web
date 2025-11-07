@@ -11,38 +11,61 @@
 </head>
 </head>
 <body>
+
+    <!-- ALERT -->
+    <div>
+      <div id="alert-error" class="position-absolute top-0 end-0 alert alert-danger alert-dismissible fade" role="alert">
+        <div id="alert-error-label"></div>
+        <button onclick="handleClick()" aria-label="Close" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+    </div>
+    <div>
+      <div id="alert-success" class="position-absolute top-0 end-0 alert alert-success alert-dismissible fade" role="alert">
+        <div id="alert-success-label"></div>
+        <button onclick="handleClick()" aria-label="Close" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+    </div>
+
+    <!-- SECTIONS -->
     <div id="section-menu" class="d-flex flex-column align-items-center section">
         <img src="../public/images/paciente.png" alt="Logo" />
         <h2>Área do Psicólogo</h2>
-        <button class="m-2 rounded-sm" onclick="showSection('loginPsicologo')">Login Psicólogo</button>
-        <button class="m-2 rounded-sm" onclick="showSection('cadastroPsicologo')">Cadastro Psicólogo</button>
+        <button class="m-2 rounded-sm action" onclick="showSection('loginPsicologo')">Login Psicólogo</button>
+        <button class="m-2 rounded-sm action" onclick="showSection('cadastroPsicologo')">Cadastro Psicólogo</button>
     </div>
   
   <div id="loginPsicologo" class="section hide d-flex flex-column align-items-center">
+    <form id="form-login">
     <h3 class="mb-4 text-center">Login Psicólogo</h3>
-    <input class="form-control m-2 p-2" type="text" placeholder="Login">
-    <input class="form-control m-2 p-2" type="password" placeholder="Senha">
+    <input class="form-control m-2 p-2" type="text" name="login" placeholder="Usuario">
+    <input class="form-control m-2 p-2" type="password" name="senha" placeholder="Senha">
     <div class="d-flex mt-3 justify-content-between w-100">
-        <button class="btn-sm btn ps-4 pe-4" onclick="showSection('section-menu')">Voltar</button>
-        <button class="ms-auto btn btn-sm ps-4 pe-4">Entrar</button>    
+        <button type="button" class="btn-sm btn ps-4 pe-4 action" onclick="showSection('section-menu')">Voltar</button>
+        <button type="submit" class="ms-auto btn btn-sm ps-4 pe-4 action">Entrar</button>    
     </div>
+    </form>
   </div>
 
   <div id="cadastroPsicologo" class="section hide d-flex flex-column align-items-center">
+    <form id="form-cadastro">
     <h3>Cadastro Psicólogo</h3>
-    <input class="form-control m-2 p-2" type="text" placeholder="Login">
-    <input class="form-control m-2 p-2" type="password" placeholder="Senha">
-    <input class="form-control m-2 p-2" type="text" placeholder="Nome">
-    <input class="form-control m-2 p-2" type="text" placeholder="CPF">
-    <input class="form-control m-2 p-2" type="text" placeholder="CRP">
-    <input class="form-control m-2 p-2" type="number" placeholder="Idade">
-    <input class="form-control m-2 p-2" type="text" placeholder="Especialidade">
+    <input class="form-control m-2 p-2" type="text" name="usuario" placeholder="Usuario">
+    <input class="form-control m-2 p-2" type="password" name="senha" placeholder="Senha">
+    <input class="form-control m-2 p-2" type="text" name="nome" placeholder="Nome">
+    <input class="form-control m-2 p-2" type="text" name="crp" placeholder="CRP">
+    <input class="form-control m-2 p-2" type="number" name="valorHora" placeholder="Valor a hora">
+    <input class="form-control m-2 p-2" type="text" name="email" placeholder="Email">
+    <select class="form-control m-2 p-2" name="especialidadeId"  placeholder="Especialidade" id="especialidadeSelect" class="form-select"></select>
+    <!-- <input class="form-control m-2 p-2" type="text" name="Especialidade" placeholder="Especialidade"> -->
     <div class="d-flex mt-3 justify-content-between w-100">
-        <button onclick="showSection('section-menu')" class="btn-sm btn ps-4 pe-4">Voltar</button>
-        <button class="btn-sm btn ps-4 pe-4">Cadastrar</button>    
+        <button type="button" onclick="showSection('section-menu')" class="btn-sm btn ps-4 pe-4 action">Voltar</button>
+        <button class="btn-sm btn ps-4 pe-4 action" type="submit">Cadastrar</button>    
     </div>
+    </form>
   </div>
 
+  <script src="../shared/resources.js"></script>
+  <script src="../shared/shared.js"></script>
   <script src="./psicologo.js"></script>
 </body>
 </html>

@@ -2,6 +2,11 @@ var psicologoId;
 var consultaSelecionadaId;
 var selectedRating;
 
+const statusConsulta = [
+  { id: 1, nome: "Cancelada" },
+  { id: 2, nome: "Agendada" },
+];
+
 var triggerTabList = document.querySelectorAll(".tab-button");
 triggerTabList.forEach(function (triggerEl) {
   var tabTrigger = new bootstrap.Tab(triggerEl);
@@ -21,12 +26,51 @@ new DevExpress.ui.dxDataGrid(
         request(
           getConsultas + `?psicologoId=${localStorage.getItem("user_id")}`,
           "GET"
-        ).then((response) => response.data),
+        ).then((response) => {
+          response.data;
+
+          if (response.data.length === 0) {
+            setTimeout(() => {
+              $("#consultas-tab-content-toshow")
+                .dxDataGrid("instance")
+                .repaint();
+            });
+          }
+
+          return response.data;
+        }),
     }),
+    noDataText: "Nenhuma consulta encontrada para este psicólogo.",
+    onRowPrepared: function (e) {
+      if (e.rowType === "data") {
+        const status = e.data.status_consulta_id;
+
+        if (status === 1) {
+          e.rowElement.addClass("row-cancelada");
+        } else if (status === 2) {
+          e.rowElement.addClass("row-confirmada");
+        }
+      }
+    },
     columns: [
-      { dataField: "id_pessoa", caption: "ID", width: 50, allowEditing: false },
-      { dataField: "data", caption: "Data" },
+      {
+        dataField: "id_consulta",
+        caption: "id",
+        allowEditing: false,
+        visible: false,
+      },
+      { dataField: "data", caption: "Data", dataType: "date" },
       { dataField: "horario", caption: "Horario" },
+      { dataField: "nome", caption: "Paciente" },
+      {
+        dataField: "status_consulta_id",
+        caption: "Status",
+        lookup: {
+          dataSource: statusConsulta,
+          valueExpr: "id",
+          displayExpr: "nome",
+        },
+      },
       {
         type: "buttons",
         buttons: [
@@ -34,11 +78,19 @@ new DevExpress.ui.dxDataGrid(
             hint: "Cancelar consulta",
             icon: "close",
             disabled(e) {
-              return e.row.data.status == "Cancelada";
+               return e.row.data.status_consulta_id == 1;
             },
             onClick(e) {
               consultaId = e.row.data.id_consulta;
-              request(cancelarConsulta + `/${consultaId}`, "PUT");
+              request(cancelarConsulta + `/${consultaId}`, "PUT").then(
+                (response) => {
+                  if (response.status == "success") {
+                    alertSuccess("Consulta cancelada com sucesso");
+                  } else {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
             },
           },
         ],

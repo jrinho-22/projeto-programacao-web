@@ -43,7 +43,7 @@ h2 {
     margin: 30px 0 !important;
 }
 
-button {
+button.action {
   padding: 10px 20px;
   margin: 5px;
   background-color: #0077cc !important;
@@ -54,7 +54,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
-button:hover {
+button.action:hover {
   background-color: #005fa3;
 }
 

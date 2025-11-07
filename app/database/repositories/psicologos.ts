@@ -5,24 +5,28 @@ export async function getPsicologos() {
     let con = await connection()
 
     const [rows] = await con.execute(
-        'SELECT * FROM Pessoa',
+        'SELECT * from Psicologo p join Pessoa p2 on p2.id_pessoa = p.id_psicologo',
     );
 
     return rows
 }
 
 export async function savePsicologo(params: any) {
-    let con = await connection()
-    console.log(params)
-    let [res] = await con.execute(
-        'INSERT INTO Login (username, senha) VALUES (?, ?)',
-        [params.email, params.nome + params.senha]
-    ) as any
+  let con = await connection();
+  let [res] = (await con.execute(
+    "INSERT INTO Login (usuario, senha) VALUES (?, ?)",
+    [params.usuario, params.senha]
+  )) as any;
 
-    await con.execute(
-        'INSERT INTO Pessoa (id_pessoa, nome, email, tipo) VALUES (?, ?, ?, ?)',
-        [res.insertId, params.nome, params.email, 2]
-    )
+  await con.execute(
+    "INSERT INTO Pessoa (id_pessoa, nome, email, tipo_pessoa_id) VALUES (?, ?, ?, ?)",
+    [res.insertId, params.nome, params.email, 1]
+  );
+
+  await con.execute(
+    "INSERT INTO Psicologo (id_psicologo, crp, especialidade_id, valor_hora) VALUES (?, ?, ?, ?)",
+    [res.insertId, params.crp, params.especialidadeId, params.valorHora]
+  );
 }
 
 export async function updatePsicologo(params: any) {

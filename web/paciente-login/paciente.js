@@ -17,7 +17,9 @@ form.addEventListener("submit", (event) => {
 
     request(pacienteSaveUpdate, "PUT", obj).then((response) => {
         if (response.status == "success"){
-            window.location.href = 'paciente-home'
+            window.location.href = '/paciente-home'
+        } else {
+            alertErro(response.errorMessage)
         }
     })  
 })
@@ -32,12 +34,14 @@ formLogin.addEventListener("submit", (event) => {
     inputs.forEach(input => {
         obj[input.name] = input.value
     });
-    obj.tipo = 1
+    obj.tipo = 2
 
     request(userLogin, "POST", obj).then((response) => {
         if (response.status == "success"){
             localStorage.setItem("user_id", response.data.id_login);
             window.location.href = '/paciente-home'
+        } else {
+            alertErro(response.errorMessage)
         }
     })  
 })

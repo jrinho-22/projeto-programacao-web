@@ -78,3 +78,19 @@ button[aria-selected="true"] {
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.row-pendente {
+  background-color: #fff3cd; /* amarelo claro */
+}
+
+.row-confirmada {
+  background-color: #d4edda; /* verde claro */
+}
+
+.row-cancelada {
+  background-color: #f8d7daa8; /* vermelho claro */
+}
+
+.dx-command-edit-with-icons {
+  background-color: white
+}

@@ -1,6 +1,6 @@
 import { myApp } from "../server/server";
 import { getPacientes, savePaciente, updatePaciente } from "../database/repositories/paciente";
-import { resolveError } from "../helpers/controller";
+import { resolveError, validateBody } from "../helpers/controller";
 import { pacienteValidation } from "../validation/paciente";
 import { ValidationChain, validationResult } from "express-validator";
 
@@ -18,22 +18,15 @@ myApp.get('/paciente', async(req: any, res: any) => {
 })
 
 myApp.put('/pacienteSaveUpdate', pacienteValidation, async(req: any, res: any) => {
+
+    var valid = validateBody(req, res)
+    if (!valid) return
     const payload = req.body
-    
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      errors = errors.formatWith(err => {return {...err, status: 400}})
-      resolveError(errors.array()[0], res)
-      return
-    }
 
     // if (!instance.isUserLogged) {
     //     res.redirect('/login');
     // } 
     try {
-        if (!errors.isEmpty()) {
-           errors.throw()
-        }
         let pacientes = await getPacientes() as any[]
         if (payload?.id_pessoa) {
             let pacienteExistente = pacientes.find(v => v.id_pessoa == payload?.id_pessoa)

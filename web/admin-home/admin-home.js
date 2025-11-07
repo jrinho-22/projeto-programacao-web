@@ -3,15 +3,6 @@
 //   window.location.href = "/paciente/cadastro";
 // });
 
-let myAlertSuccess = document.getElementById("alert-sucesso");
-let myAlertError = document.getElementById("alert-error");
-let alertElements = document.querySelectorAll(".alert-msg");
-
-function eraseAlerts() {
-  myAlertSuccess.classList.remove("show");
-  myAlertError.classList.remove("show");
-}
-
 // var triggerTabList = document.querySelectorAll(".tab-button")
 // triggerTabList.forEach(function (triggerEl) {
 //   var tabTrigger = new bootstrap.Tab(triggerEl);

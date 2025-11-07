@@ -31,31 +31,40 @@
     <link rel="stylesheet" href="./paciente-home.css" />
   </head>
   <body>
-    <div
-      id="alert-sucesso"
-      class="position-absolute alert alert-success alert-dismissible fade"
-      role="alert"
-    >
-      <span class="alert-msg"></span>
-      <button
-        onclick="eraseAlerts()"
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-      ></button>
+    <!-- ALERT -->
+    <div>
+      <div
+        id="alert-error"
+        style="z-index: 2000"
+        class="position-absolute top-0 left-0 alert alert-danger alert-dismissible fade"
+        role="alert"
+      >
+        <div id="alert-error-label"></div>
+        <button
+          onclick="handleClick()"
+          aria-label="Close"
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
-    <div
-      id="alert-error"
-      class="position-absolute alert alert-danger alert-dismissible fade"
-      role="alert"
-    >
-      <span class="alert-msg"></span>
-      <button
-        onclick="eraseAlerts()"
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-      ></button>
+    <div>
+      <div
+        id="alert-success"
+        style="z-index: 2000"
+        class="position-absolute top-0 left-0 alert alert-success alert-dismissible fade"
+        role="alert"
+      >
+        <div id="alert-success-label"></div>
+        <button
+          onclick="handleClick()"
+          aria-label="Close"
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
 
     <div class="container-fluid vh-100 ps-5 pt-2">
@@ -153,11 +162,12 @@
           <div class="modal-body">
             <div id="cadastroPaciente" class="section hide container mt-4">
               <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6">
+                <div class="col-md-8 col-lg-10">
                   <form id="form-cadastro">
                     <div class="row g-3">
                       <div class="col-md-6">
                         <input
+                          style="background-color: white"
                           name="email"
                           class="form-control"
                           id="dataConsulta"
@@ -167,7 +177,7 @@
                       </div>
                       <div class="col-md-6">
                         <select name="hora" id="hora" class="form-select">
-                          <option value="">Horário</option>
+                          <option style="color: gray" value="">Horário</option>
                           <option value="09:00">09:00</option>
                           <option value="10:00">10:00</option>
                           <option value="11:00">11:00</option>
@@ -290,7 +300,7 @@
                           class="form-control"
                           id="avaliacao-comentario"
                           rows="4"
-                          placeholder="Escreva aqui sua avaliação..."
+                          placeholder="Escreva aqui seu comentario..."
                         ></textarea>
                       </div>
                     </div>

@@ -11,11 +11,27 @@
 </head>
 </head>
 <body>
+
+    <!-- ALERT -->
+    <div>
+      <div id="alert-error" class="position-absolute top-0 start-0 alert alert-danger alert-dismissible fade" role="alert">
+        <div id="alert-error-label"></div>
+        <button onclick="handleClick()" aria-label="Close" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+    </div>
+    <div>
+      <div id="alert-success" class="position-absolute top-0 start-0 alert alert-success alert-dismissible fade" role="alert">
+        <div id="alert-success-label"></div>
+        <button onclick="handleClick()" aria-label="Close" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+    </div>
+
+    <!-- SECTIONS -->
   <div id="section-menu" class="d-flex flex-column align-items-center section">
     <img src="../public/images/paciente.png" alt="Logo" />
     <h2>Área do Paciente</h2>
-    <button class="m-2 rounded-sm" onclick="showSection('loginPaciente')">Login Paciente</button>
-    <button class="m-2 rounded-sm" onclick="showSection('cadastroPaciente')">Cadastro Paciente</button>
+    <button class="m-2 rounded-sm action" onclick="showSection('loginPaciente')">Login Paciente</button>
+    <button class="m-2 rounded-sm action" onclick="showSection('cadastroPaciente')">Cadastro Paciente</button>
   </div>
 
   <div id="loginPaciente" class="section hide d-flex flex-column align-items-center">
@@ -24,8 +40,8 @@
         <input name="login" class="form-control m-2 p-2" type="text" placeholder="Login">
         <input name="senha" class="form-control m-2 p-2" type="password" placeholder="Senha">
         <div class="d-flex mt-3 justify-content-between w-100">
-            <button class="btn-sm btn ps-4 pe-4" onclick="showSection('section-menu')">Voltar</button>
-            <button class="ms-auto btn btn-sm ps-4 pe-4" type="submit">Entrar</button> 
+            <button class="btn-sm btn ps-4 pe-4 action" onclick="showSection('section-menu')">Voltar</button>
+            <button class="ms-auto btn btn-sm ps-4 pe-4 action" type="submit">Entrar</button> 
         </div>
     </form>
   </div>
@@ -33,15 +49,15 @@
   <div id="cadastroPaciente" class="section hide d-flex flex-column align-items-center">>
     <form id="form-cadastro">
       <h3>Cadastro Paciente</h3>
-      <input name="login" class="form-control m-2 p-2" type="text" placeholder="Login">
+      <input name="usuario" class="form-control m-2 p-2" type="text" placeholder="Usuario">
       <input name="senha" class="form-control m-2 p-2" type="password" placeholder="Senha">
       <input name="nome" class="form-control m-2 p-2" type="text" placeholder="Nome Completo">
-      <input name="cpf" class="form-control m-2 p-2" type="text" placeholder="CPF">
+      <input name="cpf" class="form-control m-2 p-2" type="text" maxlength="11" inputmode="numeric" placeholder="CPF">
       <input name="email" class="form-control m-2 p-2" type="text" placeholder="Email">
       <input name="idade" class="form-control m-2 p-2" type="number" placeholder="Idade">
         <div class="d-flex mt-3 justify-content-between w-100">
-          <button class="btn-sm btn ps-4 pe-4" onclick="showSection('section-menu')">Voltar</button>
-          <button class="ms-auto btn btn-sm ps-4 pe-4" type="submit">Cadastrar</button> 
+          <button class="btn-sm btn ps-4 pe-4 action" onclick="showSection('section-menu')">Voltar</button>
+          <button class="ms-auto btn btn-sm ps-4 pe-4 action" type="submit">Cadastrar</button> 
         </div>
     </form>
   </div>

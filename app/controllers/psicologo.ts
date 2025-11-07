@@ -1,8 +1,9 @@
 import { myApp } from "../server/server";
-import { resolveError } from "../helpers/controller";
+import { resolveError, validateBody } from "../helpers/controller";
 import { pacienteValidation } from "../validation/paciente";
 import { validationResult } from "express-validator";
 import { getPsicologos, savePsicologo, updatePsicologo } from "../database/repositories/psicologos";
+import { psicologoValidation } from "../validation/psicologo";
 
 
 myApp.get('/psicologo', async(req: any, res: any) => {
@@ -17,28 +18,20 @@ myApp.get('/psicologo', async(req: any, res: any) => {
     })
 })
 
-myApp.post('/pacienteSaveUpdate', pacienteValidation, async(req: any, res: any) => {
+myApp.put('/psicologoSaveUpdate', psicologoValidation, async(req: any, res: any) => {
+    var valid = validateBody(req, res)
+    if (!valid) return
     const payload = req.body
-    
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      errors = errors.formatWith(err => {return {...err, status: 400}})
-      resolveError(errors.array()[0], res)
-      return
-    }
 
     // if (!instance.isUserLogged) {
     //     res.redirect('/login');
     // } 
     try {
-        if (!errors.isEmpty()) {
-           errors.throw()
-        }
-        let pacientes = await getPsicologos() as any[]
-        if (payload?.id_pessoa) {
-            let pacienteExistente = pacientes.find(v => v.id_pessoa == payload?.id_pessoa)
-            if (!pacienteExistente) {
-                throw new Error("Paciente não encontrado")
+        let psicologo = await getPsicologos() as any[]
+        if (payload?.id_psicologo) {
+            let psicologoExistente = psicologo.find(v => v.id_psicologo == payload?.id_psicologo)
+            if (!psicologoExistente) {
+                throw new Error("Psicologo não encontrado")
             }
             await updatePsicologo(payload) 
         } else {
