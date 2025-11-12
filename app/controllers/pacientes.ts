@@ -17,26 +17,34 @@ myApp.get('/paciente', async(req: any, res: any) => {
     })
 })
 
-myApp.put('/pacienteSaveUpdate', pacienteValidation, async(req: any, res: any) => {
+myApp.post('/pacienteSave', pacienteValidation, async(req: any, res: any) => {
 
     var valid = validateBody(req, res)
     if (!valid) return
     const payload = req.body
 
-    // if (!instance.isUserLogged) {
-    //     res.redirect('/login');
-    // } 
+    try {
+        let response =  await savePaciente(payload) 
+
+        res.send({
+            data: response,
+            status: "success",
+        })
+    } catch (error: any) {
+        resolveError(error, res)
+    }
+})
+
+myApp.put('/pacienteUpdate', async(req: any, res: any) => {
+    const payload = req.body
+
     try {
         let pacientes = await getPacientes() as any[]
-        if (payload?.id_pessoa) {
-            let pacienteExistente = pacientes.find(v => v.id_pessoa == payload?.id_pessoa)
-            if (!pacienteExistente) {
-                throw new Error("Paciente não encontrado")
-            }
-            await updatePaciente(payload) 
-        } else {
-            await savePaciente(payload) 
+        let pacienteExistente = pacientes.find(v => v.id_pessoa == payload?.id_pessoa)
+        if (!pacienteExistente) {
+            throw new Error("Paciente não encontrado")
         }
+        await updatePaciente(payload) 
 
         res.send({
             data: true,

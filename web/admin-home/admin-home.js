@@ -13,7 +13,15 @@
 //   });
 // });
 
-new DevExpress.ui.dxDataGrid(
+const especialidades = [
+  { value: 1, text: "Psicologia Clínica" },
+  { value: 2, text: "Psicologia Escolar" },
+  { value: 3, text: "Psicanálise" },
+  { value: 4, text: "Neuropsicologia" },
+  { value: 5, text: "Psicologia do Esporte" },
+];
+
+gridPaciente = new DevExpress.ui.dxDataGrid(
   document.getElementById("paciente-tab-content-toshow"),
   {
     dataSource: new DevExpress.data.CustomStore({
@@ -25,139 +33,173 @@ new DevExpress.ui.dxDataGrid(
           ...key,
           ...values,
         };
-        eraseAlerts();
-        return request(pacienteSaveUpdate, "PUT", payload).then((response) => {
+        return request(pacienteUpdate, "PUT", payload).then((response) => {
           if (response.status == "success") {
-            alertElements.forEach((el) => {
-              el.innerHTML = "Item editado com <strong>sucesso</strong>";
-            });
-            myAlertSuccess.classList.add("show");
+            alertSuccess("Item editado com <strong>sucesso</strong>");
           } else {
-            alertElements.forEach((el) => {
-              el.innerHTML = response.errorMessage;
-            });
-            myAlertError.classList.add("show");
-          }
-        });
-      },
-      insert: (key, values) => {
-        let payload = {
-          ...key,
-          ...values,
-        };
-        eraseAlerts();
-        return request(pacienteSaveUpdate, "PUT", payload).then((response) => {
-          if (response.status == "success") {
-            alertElements.forEach((el) => {
-              el.innerHTML = "Item inserido com <strong>sucesso</strong>";
-            });
-            myAlertSuccess.classList.add("show");
-          } else {
-            alertElements.forEach((el) => {
-              el.innerHTML = response.errorMessage;
-            });
-            myAlertError.classList.add("show");
+            alertErro(response.errorMessage);
           }
         });
       },
     }),
     columns: [
       { dataField: "id_pessoa", caption: "ID", width: 50, allowEditing: false },
+      { dataField: "cpf", caption: "CPF", allowEditing: false },
       { dataField: "nome", caption: "Name" },
       { dataField: "email", caption: "Email" },
+      { dataField: "idade", caption: "Idade",  alignment: "left" },
       {
-        dataField: "tipo",
-        caption: "Tipo",
-        lookup: {
-          dataSource: [
-            { value: 2, text: "Psicologo" },
-            { value: 1, text: "Paciente" },
-          ],
-          valueExpr: "value",
-          displayExpr: "text",
-        },
+        caption: "Ações",
+        type: "buttons",
+        buttons: [
+          "edit",
+          {
+            hint: "Inativar Paciente",
+            icon: "unlock",
+            visible: (e) => e.row.data.status == 1,
+            onClick: async(e) => {
+              gridPaciente.beginCustomLoading();
+              pessoaId = e.row.data.id_pessoa;
+              await request(inativarCadastro + `/${pessoaId}`, "PUT").then(
+                (response) => {
+                  if (!response.status == "success") {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
+              gridPaciente.refresh()
+              gridPaciente.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                alertSuccess("Cadastro inativado com sucesso");
+                r()
+              }, 2000))
+            },
+          },
+          {
+            hint: "Ativar Paciente",
+            icon: "lock",
+            visible: (e) => e.row.data.status == 0,
+            onClick: async(e) => {
+              gridPaciente.beginCustomLoading();
+              pessoaId = e.row.data.id_pessoa;
+              await request(ativarCadastro + `/${pessoaId}`, "PUT").then(
+                (response) => {
+                  if (!response.status == "success") {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
+              gridPaciente.refresh()
+              gridPaciente.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                alertSuccess("Cadastro ativado com sucesso");
+                r()
+              }, 2000))
+            },
+          },
+        ],
       },
     ],
     showBorders: true,
     editing: {
       mode: "row",
       allowUpdating: true,
-      allowAdding: true,
       allowDeleting: true,
     },
   }
 );
 
-new DevExpress.ui.dxDataGrid(
+grid = new DevExpress.ui.dxDataGrid(
   document.getElementById("psicologo-tab-content-toshow"),
   {
     dataSource: new DevExpress.data.CustomStore({
       // key: "id_pessoa",
-      load: () =>
-        request(getPsicologo, "GET").then((response) => response.data),
+      load: () => request(getPsicologo, "GET").then((response) => response.data),
       update: (key, values) => {
         let payload = {
           ...key,
           ...values,
         };
-        eraseAlerts();
-        return request(pacienteSaveUpdate, "PUT", payload).then((response) => {
+        return request(psicologoUpdate, "PUT", payload).then((response) => {
           if (response.status == "success") {
-            alertElements.forEach((el) => {
-              el.innerHTML = "Item editado com <strong>sucesso</strong>";
-            });
-            myAlertSuccess.classList.add("show");
+            alertSuccess("Item editado com <strong>sucesso</strong>");
           } else {
-            alertElements.forEach((el) => {
-              el.innerHTML = response.errorMessage;
-            });
-            myAlertError.classList.add("show");
-          }
-        });
-      },
-      insert: (key, values) => {
-        let payload = {
-          ...key,
-          ...values,
-        };
-        eraseAlerts();
-        return request(pacienteSaveUpdate, "PUT", payload).then((response) => {
-          if (response.status == "success") {
-            alertElements.forEach((el) => {
-              el.innerHTML = "Item inserido com <strong>sucesso</strong>";
-            });
-            myAlertSuccess.classList.add("show");
-          } else {
-            alertElements.forEach((el) => {
-              el.innerHTML = response.errorMessage;
-            });
-            myAlertError.classList.add("show");
+            alertErro(response.errorMessage);
           }
         });
       },
     }),
     columns: [
       { dataField: "id_pessoa", caption: "ID", width: 50, allowEditing: false },
+      { dataField: "crp", caption: "CRP", allowEditing: false },
       { dataField: "nome", caption: "Name" },
       { dataField: "email", caption: "Email" },
+      { dataField: "valor_hora", caption: "Valor Hora" },
       {
-        dataField: "tipo",
-        caption: "Tipo",
+        dataField: "especialidade_id",
+        caption: "Especialidade",
         lookup: {
-          dataSource: [
-            { value: 2, text: "Psicologo" },
-            { value: 1, text: "Paciente" },
-          ],
+          dataSource: especialidades,
           valueExpr: "value",
           displayExpr: "text",
         },
+      },
+      {
+        caption: "Ações",
+        type: "buttons",
+        buttons: [
+          "edit",
+          {
+            hint: "Inativar Psicologo",
+            icon: "unlock",
+            visible: (e) => e.row.data.status == 1,
+            onClick: async(e) => {
+              grid.beginCustomLoading();
+              pessoaId = e.row.data.id_pessoa;
+              await request(inativarCadastro + `/${pessoaId}`, "PUT").then(
+                (response) => {
+                  if (!response.status == "success") {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
+              grid.refresh()
+              grid.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                alertSuccess("Cadastro inativado com sucesso");
+                r()
+              }, 2000))
+            },
+          },
+          {
+            hint: "Ativar Psicologo",
+            icon: "lock",
+            visible: (e) => e.row.data.status == 0,
+            onClick: async(e) => {
+              grid.beginCustomLoading();
+              pessoaId = e.row.data.id_pessoa;
+              await request(ativarCadastro + `/${pessoaId}`, "PUT").then(
+                (response) => {
+                  if (!response.status == "success") {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
+              grid.refresh()
+              grid.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                alertSuccess("Cadastro ativado com sucesso");
+                r()
+              }, 2000))
+            },
+          },
+        ],
       },
     ],
     showBorders: true,
     editing: {
       mode: "row",
       allowUpdating: true,
-      allowAdding: true,
       allowDeleting: true,
     },
   }

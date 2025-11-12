@@ -27,3 +27,9 @@ function alertSuccess(msg) {
   myAlertSuccessLabel.innerHTML = msg
   myAlertSuccess.classList.add("show");
 }
+
+function logout() {
+  document.cookie = "userType=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+  localStorage.removeItem("user_id");
+  window.location.href = "/login";
+}

@@ -27,6 +27,8 @@ export async function savePsicologo(params: any) {
     "INSERT INTO Psicologo (id_psicologo, crp, especialidade_id, valor_hora) VALUES (?, ?, ?, ?)",
     [res.insertId, params.crp, params.especialidadeId, params.valorHora]
   );
+
+  return {id: res.insertId}
 }
 
 export async function updatePsicologo(params: any) {
@@ -35,4 +37,10 @@ export async function updatePsicologo(params: any) {
         'UPDATE Pessoa SET nome = ?, email = ? WHERE id_pessoa = ?;',
         [params.nome, params.email, params.id_pessoa]
     )
+
+      // Update Psicologo
+    await con.execute(
+      "UPDATE Psicologo SET valor_hora = ?, especialidade_id = ? WHERE id_psicologo = ?",
+      [params.valor_hora, params.especialidade_id, params.id_pessoa]
+    );
 }

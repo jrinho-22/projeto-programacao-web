@@ -18,7 +18,7 @@ button[aria-selected="false"]:hover {
   color: rgb(32, 148, 173) ;
 }
 
-button {
+button.nav-link {
     border: 2px solid rgb(32, 148, 173) !important;
     border-bottom: none !important;
 }
@@ -33,7 +33,6 @@ button[aria-selected="true"] {
 .dx-datagrid {
     background-color: bisque;
     border-radius: 20px;
-    margin-top: 40px;
 
     .dx-datagrid-header-panel {
         height: 37px;

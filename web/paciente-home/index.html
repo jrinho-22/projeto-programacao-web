@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="./paciente-home.css" />
   </head>
   <body>
+
     <!-- ALERT -->
     <div>
       <div
@@ -65,6 +66,10 @@
           aria-label="Close"
         ></button>
       </div>
+    </div>
+
+    <div class="logout-container d-flex justify-content-end">
+      <button onclick="logout()" class="btn btn-outline-dark btn-md me-4">Sair</button>
     </div>
 
     <div class="container-fluid vh-100 ps-5 pt-2">
@@ -107,7 +112,6 @@
           </button>
         </li>
       </ul>
-      <!-- <div class="border-blue"></div> -->
 
       <div class="tab-content" id="myTabContent">
         <div

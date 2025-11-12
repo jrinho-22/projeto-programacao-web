@@ -17,8 +17,10 @@ form.addEventListener("submit", (event) => {
         obj[input.name] = input.value
     });
 
-    request(psicologoSaveUpdate, "PUT", obj).then((response) => {
+    request(psicologoSave, "POST", obj).then((response) => {
         if (response.status == "success"){
+            localStorage.setItem("user_id", response.data.id);
+            document.cookie = "userType=1; path=/";
             window.location.href = '/psicologo-home'
         } else {
             alertErro(response.errorMessage)
@@ -41,7 +43,8 @@ formLogin.addEventListener("submit", (event) => {
     request(userLogin, "POST", obj).then((response) => {
         if (response.status == "success"){
             localStorage.setItem("user_id", response.data.id_login);
-            window.location.href = '/paciente-home'
+            document.cookie = "userType=1; path=/";
+            window.location.href = '/psicologo-home'
         } else {
             alertErro(response.errorMessage)
         }
