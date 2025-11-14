@@ -41,6 +41,6 @@ export async function updatePaciente(params: any) {
   // Update Paciente
   await con.execute(
     "UPDATE Paciente SET idade = ? WHERE id_paciente = ?",
-    [params.cpf, params.idade, params.id_pessoa]
+    [params.idade, params.id_pessoa]
   );
 }

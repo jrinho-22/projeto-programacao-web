@@ -13,13 +13,17 @@
 //   });
 // });
 
-const especialidades = [
-  { value: 1, text: "Psicologia Clínica" },
-  { value: 2, text: "Psicologia Escolar" },
-  { value: 3, text: "Psicanálise" },
-  { value: 4, text: "Neuropsicologia" },
-  { value: 5, text: "Psicologia do Esporte" },
-];
+let especialidades = [];
+especialidadesInit = async() => {
+  await request(getAllEspecialidades, "GET").then((v) => {
+    especialidades = v.data.map(v => {
+      return {text: v.descricao, value: v.id_especialidade}
+    })
+  })
+  grid.refresh()
+}
+especialidadesInit()
+
 
 gridPaciente = new DevExpress.ui.dxDataGrid(
   document.getElementById("paciente-tab-content-toshow"),
@@ -70,7 +74,7 @@ gridPaciente = new DevExpress.ui.dxDataGrid(
               gridPaciente.refresh()
               gridPaciente.endCustomLoading()
               await new Promise(r => setTimeout(() => {
-                alertSuccess("Cadastro inativado com sucesso");
+                alertSuccess("Cadastro desativado com sucesso");
                 r()
               }, 2000))
             },
@@ -101,6 +105,10 @@ gridPaciente = new DevExpress.ui.dxDataGrid(
       },
     ],
     showBorders: true,
+    paging: {
+      enabled: true,
+      pageSize: 4,
+    },
     editing: {
       mode: "row",
       allowUpdating: true,
@@ -139,10 +147,10 @@ grid = new DevExpress.ui.dxDataGrid(
         dataField: "especialidade_id",
         caption: "Especialidade",
         lookup: {
-          dataSource: especialidades,
+          dataSource: () => especialidades,
           valueExpr: "value",
           displayExpr: "text",
-        },
+        }
       },
       {
         caption: "Ações",
@@ -166,7 +174,7 @@ grid = new DevExpress.ui.dxDataGrid(
               grid.refresh()
               grid.endCustomLoading()
               await new Promise(r => setTimeout(() => {
-                alertSuccess("Cadastro inativado com sucesso");
+                alertSuccess("Cadastro desativado com sucesso");
                 r()
               }, 2000))
             },
@@ -197,6 +205,10 @@ grid = new DevExpress.ui.dxDataGrid(
       },
     ],
     showBorders: true,
+    paging: {
+      enabled: true,
+      pageSize: 4,
+    },
     editing: {
       mode: "row",
       allowUpdating: true,
@@ -253,3 +265,69 @@ request(getAllAvaliacao, "GET").then((v) => {
     },
   });
 });
+
+gridEspecialidades = new DevExpress.ui.dxDataGrid(
+  document.getElementById("especialidades-tab-content-toshow"),
+  {
+    dataSource: new DevExpress.data.CustomStore({
+      columnAutoWidth: false,
+      width: "100%",
+      columnHidingEnabled: false,
+      // key: "id_pessoa",
+      load: () => request(getAllEspecialidades, "GET").then((response) => response.data),
+      update: (key, values) => {
+        let payload = {
+          ...key,
+          ...values,
+        };
+        return request(updateEspecialidade, "PUT", payload).then((response) => {
+          if (response.status == "success") {
+            alertSuccess("Item editado com <strong>sucesso</strong>");
+          } else {
+            alertErro(response.errorMessage);
+          }
+          especialidadesInit()
+        });
+      },
+      insert: (key, values) => {
+        let payload = {
+          ...key,
+          ...values,
+        };
+        return request(addEspecialidade, "POST", payload).then((response) => {
+          if (response.status == "success") {
+            alertSuccess("Item inserido com <strong>sucesso</strong>");
+          } else {
+            alertErro(response.errorMessage);
+          }
+          especialidadesInit()
+        });
+      },
+      remove: (key, values) => {
+        let payload = {
+          ...key,
+          ...values,
+        };
+        return request(`${deleteEspecialidade}/${payload.id_especialidade}`, "DELETE").then((response) => {
+          if (response.status == "success") {
+            alertSuccess("Item deletado com <strong>sucesso</strong>");
+          } else {
+            alertErro(response.errorMessage);
+          }
+          especialidadesInit()
+        });
+      },
+    }),
+    columns: [
+      { dataField: "id_especialidade", caption: "ID", width: 50, allowEditing: false },
+      { dataField: "descricao", caption: "Descrição", width: 50, alignment: "center"},
+    ],
+    showBorders: true,
+    editing: {
+      mode: "row",
+      allowAdding: true,
+      allowUpdating: true,
+      allowDeleting: true,
+    },
+  }
+);

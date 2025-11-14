@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import { getLogin } from "../database/repositories/login";
 import { resolveError, validateBody } from "../helpers/controller";
 import { myApp } from "../server/server";
-import { agendarConsulta, cancelarConsulta, getConsultas } from "../database/repositories/consulta";
+import { agendarConsulta, cancelarConsulta, concluirConsulta, getConsultas } from "../database/repositories/consulta";
 import { consultaValidation } from "../validation/consulta";
 
 myApp.get('/consultas', async(req: any, res: any) => {
@@ -25,6 +25,17 @@ myApp.put('/cancelarConsulta/:consultaId', async(req: any, res: any) => {
     //     res.redirect('/login');
     // } 
     await cancelarConsulta(consultaId)
+    
+    res.send({
+        data: true,
+        status: "success",
+    })
+})
+
+myApp.put('/concluirConsulta/:consultaId', async(req: any, res: any) => {
+    const consultaId = req.params.consultaId;
+
+    await concluirConsulta(consultaId)
     
     res.send({
         data: true,

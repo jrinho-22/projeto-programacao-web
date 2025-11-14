@@ -5,6 +5,7 @@ var selectedRating;
 const statusConsulta = [
   { id: 1, nome: "Cancelada" },
   { id: 2, nome: "Agendada" },
+  { id: 3, nome: "Concluida" },
 ];
 
 var triggerTabList = document.querySelectorAll(".tab-button");
@@ -17,7 +18,7 @@ triggerTabList.forEach(function (triggerEl) {
   });
 });
 
-new DevExpress.ui.dxDataGrid(
+const grid = new DevExpress.ui.dxDataGrid(
   document.getElementById("consultas-tab-content-toshow"),
   {
     dataSource: new DevExpress.data.CustomStore({
@@ -49,6 +50,8 @@ new DevExpress.ui.dxDataGrid(
           e.rowElement.addClass("row-cancelada");
         } else if (status === 2) {
           e.rowElement.addClass("row-confirmada");
+        } else if (status === 3) {
+          e.rowElement.addClass("row-concluida");
         }
       }
     },
@@ -72,36 +75,74 @@ new DevExpress.ui.dxDataGrid(
         },
       },
       {
+        caption: "Ações",
         type: "buttons",
         buttons: [
           {
-            hint: "Cancelar consulta",
-            icon: "close",
             disabled(e) {
-               return e.row.data.status_consulta_id == 1;
+              let today = new Date();
+              let dataConsulta = new Date(e.row.data.data);
+              return (
+                e.row.data.status_consulta_id !== 2 ||
+                today.getDate() <= dataConsulta.getDate()
+              );
             },
-            onClick(e) {
+            hint: "Concluir Consulta",
+            icon: "check",
+            onClick: async(e) => {
+              grid.beginCustomLoading();
               consultaId = e.row.data.id_consulta;
-              request(cancelarConsulta + `/${consultaId}`, "PUT").then(
+              await request(concluirConsulta + `/${consultaId}`, "PUT").then(
                 (response) => {
-                  if (response.status == "success") {
-                    alertSuccess("Consulta cancelada com sucesso");
-                  } else {
+                  if (!response.status == "success") {
                     alertErro(response.errorMessage);
                   }
                 }
               );
+              grid.refresh()
+              grid.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                 alertSuccess("Consulta concluida com sucesso");
+                r()
+              }, 2000))
+            },
+          },
+          {
+            hint: "Cancelar consulta",
+            icon: "close",
+            disabled(e) {
+              return e.row.data.status_consulta_id != 2;
+            },
+            onClick: async(e) => {
+              grid.beginCustomLoading();
+              consultaId = e.row.data.id_consulta;
+              await request(cancelarConsulta + `/${consultaId}`, "PUT").then(
+                (response) => {
+                  if (!response.status == "success") {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
+              grid.refresh()
+              grid.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                 alertSuccess("Consulta cancelada com sucesso");
+                r()
+              }, 2000))
             },
           },
         ],
       },
     ],
     showBorders: true,
-    editing: {
-      mode: "row",
-      allowUpdating: true,
-      allowAdding: true,
-      allowDeleting: true,
+    searchPanel: {
+      visible: true,
+      highlightCaseSensitive: false,
+      placeholder: "Pesquisar...",
+    },
+    paging: {
+      enabled: true,
+      pageSize: 4,
     },
   }
 );

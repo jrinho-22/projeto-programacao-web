@@ -50,3 +50,7 @@ button[aria-selected="true"] {
 .dx-datagrid.header {
     height: 37px;
 }
+
+#especialidades-tab-content-toshow {
+  max-width: 60% !important
+}

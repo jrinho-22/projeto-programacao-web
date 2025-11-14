@@ -1,5 +1,11 @@
 import { connection } from "../connection";
 
+// statusConsulta = {
+//   cancelada: 1
+//   agendada: 2
+//   concluida:3
+// }
+
 export const agendarConsulta = async (payload: any) => {
   let con = await connection();
   const [result] = await con.execute(
@@ -11,6 +17,12 @@ export const agendarConsulta = async (payload: any) => {
 export const cancelarConsulta = async (consultaId: any) => {
   let con = await connection();
   await con.execute(`UPDATE Consulta SET status_consulta_id = 1 WHERE id_consulta = ${consultaId}`);
+  return true
+};
+
+export const concluirConsulta = async (consultaId: any) => {
+  let con = await connection();
+  await con.execute(`UPDATE Consulta SET status_consulta_id = 3 WHERE id_consulta = ${consultaId}`);
   return true
 };
 

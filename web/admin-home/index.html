@@ -87,12 +87,11 @@
             aria-selected="false"
             role="tab"
           >
-            Lista de Psicologos
+            Lista de Psicólogos
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button
-            style="border-top-right-radius: 18px"
             class="nav-link tab-button"
             id="avaliacao-tab"
             data-bs-toggle="tab"
@@ -104,6 +103,22 @@
             role="tab"
           >
             Avaliacao Psicologos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            style="border-top-right-radius: 18px"
+            class="nav-link tab-button"
+            id="especialidades-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#especialidades-tab-content"
+            type="button"
+            role="tab"
+            aria-controls="especialidades-tab-content"
+            aria-selected="false"
+            role="tab"
+          >
+            Especialidades Psicologos 
           </button>
         </li>
       </ul>
@@ -125,6 +140,17 @@
           aria-labelledby="profile-tab"
         >
           <div id="psicologo-tab-content-toshow"></div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="especialidades-tab-content"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+        >
+        <div class="w-100 d-flex justify-content-center">
+           <div style="max-width: 100%" id="especialidades-tab-content-toshow"></div>
+        </div>
+         
         </div>
         
         <div

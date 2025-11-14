@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+    "run-build": "node dist/app.js",
+    "build": "tsc",
     "start": "npx nodemon --exec ts-node app.ts --watch app --ext ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

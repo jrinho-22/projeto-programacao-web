@@ -2,17 +2,22 @@ var psicologoId;
 var consultaSelecionadaId;
 var selectedRating;
 
-const especialidades = [
-  { id: 1, nome: "Psicologia Clínica" },
-  { id: 2, nome: "Psicologia Escolar" },
-  { id: 3, nome: "Psicanálise" },
-  { id: 4, nome: "Neuropsicologia" },
-  { id: 5, nome: "Psicologia do Esporte" },
-];
+let especialidades = [];
+especialidadesInit = async() => {
+  await request(getAllEspecialidades, "GET").then((v) => {
+    especialidades = v.data.map(v => {
+      return {text: v.descricao, value: v.id_especialidade}
+    })
+  })
+  grid.refresh()
+  gridPsicologos.refresh()
+}
+especialidadesInit()
 
 const statusConsulta = [
   { id: 1, nome: "Cancelada" },
   { id: 2, nome: "Agendada" },
+  { id: 3, nome: "Concluida" },
 ];
 
 var triggerTabList = document.querySelectorAll(".tab-button");
@@ -44,12 +49,19 @@ const grid = new DevExpress.ui.dxDataGrid(
           e.rowElement.addClass("row-cancelada");
         } else if (status === 2) {
           e.rowElement.addClass("row-confirmada");
+        } else if (status === 3) {
+          e.rowElement.addClass("row-concluida");
         }
       }
     },
+    searchPanel: {
+      visible: true,
+      highlightCaseSensitive: false,
+      placeholder: "Pesquisar...",
+    },
     paging: {
       enabled: true,
-      pageSize: 6,
+      pageSize: 4,
     },
     columns: [
       {
@@ -62,10 +74,10 @@ const grid = new DevExpress.ui.dxDataGrid(
         dataField: "especialidade_id",
         caption: "Especialidade",
         lookup: {
-          dataSource: especialidades,
-          valueExpr: "id",
-          displayExpr: "nome",
-        },
+          dataSource: () => especialidades,
+          valueExpr: "value",
+          displayExpr: "text",
+        }
       },
       {
         dataField: "data",
@@ -89,7 +101,7 @@ const grid = new DevExpress.ui.dxDataGrid(
         buttons: [
           {
             disabled(e) {
-              return e.row.data.status_consulta_id == 1;
+              return e.row.data.status_consulta_id !== 3 
             },
             hint: "Avaliar consulta",
             icon: "favorites",
@@ -100,39 +112,63 @@ const grid = new DevExpress.ui.dxDataGrid(
             },
           },
           {
-            hint: "Cancelar consulta",
-            icon: "close",
             disabled(e) {
-              return e.row.data.status_consulta_id == 1;
+              let today = new Date()
+              let dataConsulta = new Date(e.row.data.data)
+              return e.row.data.status_consulta_id !== 2 || today.getDate() <= dataConsulta.getDate();
             },
-            onClick(e) {
+            hint: "Concluir Consulta",
+            icon: "check",
+            onClick: async(e) => {
+              grid.beginCustomLoading();
               consultaId = e.row.data.id_consulta;
-              request(cancelarConsulta + `/${consultaId}`, "PUT").then(
+              await request(concluirConsulta + `/${consultaId}`, "PUT").then(
                 (response) => {
-                  if (response.status == "success") {
-                    alertSuccess("Consulta cancelada com sucesso");
-                    setTimeout(() => grid.refresh(), 1000);
-                  } else {
+                  if (!response.status == "success") {
                     alertErro(response.errorMessage);
                   }
                 }
               );
+              grid.refresh()
+              grid.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                 alertSuccess("Consulta concluida com sucesso");
+                r()
+              }, 2000))
+            },
+          },
+          {
+            hint: "Cancelar consulta",
+            icon: "close",
+            disabled(e) {
+              return e.row.data.status_consulta_id !== 2;
+            },
+            onClick: async(e) => {
+              grid.beginCustomLoading();
+              consultaId = e.row.data.id_consulta;
+              await request(cancelarConsulta + `/${consultaId}`, "PUT").then(
+                (response) => {
+                  if (!response.status == "success") {
+                    alertErro(response.errorMessage);
+                  }
+                }
+              );
+              grid.refresh()
+              grid.endCustomLoading()
+              await new Promise(r => setTimeout(() => {
+                 alertSuccess("Consulta cancelada com sucesso");
+                r()
+              }, 2000))
             },
           },
         ],
       },
     ],
     showBorders: true,
-    editing: {
-      mode: "row",
-      allowUpdating: true,
-      allowAdding: true,
-      allowDeleting: true,
-    },
   }
 );
 
-new DevExpress.ui.dxDataGrid(
+const gridPsicologos = new DevExpress.ui.dxDataGrid(
   document.getElementById("psicologos-tab-content-toshow"),
   {
     dataSource: new DevExpress.data.CustomStore({
@@ -140,6 +176,15 @@ new DevExpress.ui.dxDataGrid(
       load: () =>
         request(getPsicologo, "GET").then((response) => response.data),
     }),
+    searchPanel: {
+      visible: true,
+      highlightCaseSensitive: false,
+      placeholder: "Pesquisar...",
+    },
+    paging: {
+      enabled: true,
+      pageSize: 4,
+    },
     columns: [
       {
         dataField: "id_pessoa",
@@ -148,17 +193,17 @@ new DevExpress.ui.dxDataGrid(
         allowEditing: false,
         visible: false,
       },
-      { dataField: "Psicologo", caption: "Nome" },
+      { dataField: "nome", caption: "Psicólogo" },
       { dataField: "email", caption: "Email" },
       { dataField: "crp", caption: "CRP" },
       {
         dataField: "especialidade_id",
         caption: "Especialidade",
         lookup: {
-          dataSource: especialidades,
-          valueExpr: "id",
-          displayExpr: "nome",
-        },
+          dataSource: () => especialidades,
+          valueExpr: "value",
+          displayExpr: "text",
+        }
       },
       { dataField: "valor_hora", caption: "Valor Hora" },
       {
@@ -178,17 +223,14 @@ new DevExpress.ui.dxDataGrid(
       },
     ],
     showBorders: true,
-    editing: {
-      mode: "row",
-      allowUpdating: true,
-      allowAdding: true,
-      allowDeleting: true,
-    },
   }
 );
 
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+
 flatpickr("#dataConsulta", {
-  minDate: "today",
+  minDate: yesterday,
   disable: [
     function (date) {
       return date.getDay() === 0 || date.getDay() === 6;

@@ -33,9 +33,9 @@ button[aria-selected="true"] {
 .dx-datagrid {
     background-color: bisque;
     border-radius: 20px;
-    margin-top: 40px;
+    /* margin-top: 40px; */
 
-    .dx-datagrid-header-panel {
+    /* .dx-datagrid-header-panel {
         height: 37px;
 
         .dx-toolbar {
@@ -45,11 +45,14 @@ button[aria-selected="true"] {
                 height: inherit;
             }
         }
-    }
+    } */
 }
 
-.dx-datagrid.header {
+/* .dx-datagrid.header {
     height: 37px;
+} */
+ .dx-texteditor.dx-editor-filled {
+  background-color: transparent !important
 }
 
 .card-avaliacao {
@@ -79,8 +82,8 @@ button[aria-selected="true"] {
   font-weight: bold;
 }
 
-.row-pendente {
-  background-color: #fff3cd; /* amarelo claro */
+.row-concluida {
+  background-color: #b9ecff; ; /* amarelo claro */
 }
 
 .row-confirmada {

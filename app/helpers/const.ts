@@ -6,8 +6,4 @@ const dbConnection = {
     database: "defaultdb"
 }
 
-export class teste {
-    public logged = false
-}
-
 export default dbConnection

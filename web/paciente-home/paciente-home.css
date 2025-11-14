@@ -33,8 +33,7 @@ button[aria-selected="true"] {
 .dx-datagrid {
     background-color: bisque;
     border-radius: 20px;
-    margin-top: 40px;
-
+/* 
     .dx-datagrid-header-panel {
         height: 37px;
 
@@ -45,11 +44,14 @@ button[aria-selected="true"] {
                 height: inherit;
             }
         }
-    }
+    } */
 }
 
-.dx-datagrid.header {
+/* .dx-datagrid.header {
     height: 37px;
+} */
+.dx-texteditor.dx-editor-filled {
+  background-color: transparent !important
 }
 
 .rating {
@@ -103,8 +105,8 @@ button[aria-selected="true"] {
   box-sizing: border-box;
 }
 
-.row-pendente {
-  background-color: #fff3cd; /* amarelo claro */
+.row-concluida {
+  background-color: #b9ecff; /* amarelo claro */
 }
 
 .row-confirmada {
